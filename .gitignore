@@ -1,0 +1,8 @@
+# ignore log file
+history.txt
+
+#ignore binary
+rash
+
+#ignore test directory
+testdir/
