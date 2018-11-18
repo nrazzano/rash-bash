@@ -18,6 +18,10 @@ void initRash(); // just for fun; got from
 void cdCheck(const char* cmd, char* dir);
 bool killRash(char* cmd);
 
+// need to implement
+void splitString(string* s);
+
+
 int main(int argc, const char * argv[]) {
 
     initRash();
@@ -31,8 +35,12 @@ int main(int argc, const char * argv[]) {
     char* args[10];
 
 
-    for(int i = 0; i < 10; ++i) {
-        args[i] = new char[255];
+    // for(int i = 0; i < 10; ++i) {
+    //     args[i] = new char[255];
+    // }
+
+    for (auto index : args) {
+        index = new char[255];
     }
 
     using_history();
@@ -41,11 +49,13 @@ int main(int argc, const char * argv[]) {
     while ((buf = readline("$ ")) != nullptr) {
 
         string str(buf);
-        cout << str << endl;
+        // if (str.length() < 1) continue; 
+
         if (strlen(buf) > 0) {
             add_history(buf); // for arrow history
             append_history(1, "history.txt");
         }
+        else continue;
 
         if (killRash(buf)) return 0;
 
@@ -53,14 +63,6 @@ int main(int argc, const char * argv[]) {
         int num = sscanf(buf, "%ms %ms %ms", &args[0], &args[1], &args[2]);
         command = args[0];
 
-        // cout << args[0] << " " << args[1] << " " << args[2] << endl;
-        // cout << buf << endl;
-
-        // for (int i = 0; i < 3; ++i) {
-        //     if (args[i][0] == '$') {
-        //         cout << "omg an env var\n";
-        //     }
-        // }
 
         cdCheck(command, args[1]);
 
