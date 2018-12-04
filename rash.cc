@@ -83,15 +83,16 @@ bool killRash(char* cmd) {
 // }
 // This does execv for each item in the $PATH env. 
 void doExec(char* args[]) {
-    if(char* env_path = getenv("PATH")) {
+    if(strstr(args[0], "/bin")) { 
+        // full path included in input
+        execv(args[0], args);
+    }
+    else if(char* env_path = getenv("PATH")) {
         char* each_path = strtok(env_path, ":");
         while (each_path != NULL) {
             char* execute = new char[255];
-            if(!strstr(args[0], "/bin")) { 
-                // full path included in input
-                strcpy(execute, each_path);
-                strcat(execute, "/");
-            }
+            strcpy(execute, each_path);
+            strcat(execute, "/");
             strcat(execute, args[0]);
             execv(execute, args);
             each_path = strtok(NULL, ":");
