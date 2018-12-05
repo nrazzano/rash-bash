@@ -1,4 +1,3 @@
-#include <iostream>
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -6,6 +5,7 @@
 #include <wordexp.h>
 #include <sstream>
 #include <iterator>
+#include <iostream>
 #include "rash.h"
 
 
@@ -28,6 +28,7 @@ vector<string> getStrVector(string s) {
                           istream_iterator<string>());
     return sVec;
 }
+
 vector<char*> getCharVector(vector<string> v) {
     size_t vSize = v.size();
     vector<char*>  cVec;
@@ -41,6 +42,14 @@ vector<char*> getCharVector(vector<string> v) {
     return cVec;
 }
 
+queue< vector<char*> > getExecQueue(vector<string> sv) {
+    queue< vector<char*> > execQ;
+
+    for (auto item : sv) {
+        if (item == "&&") cout << "yup" << endl;
+    }
+    return execQ;
+}
 // check if the command is cd
 bool cdCheck(const char* cmd, const char* dir) {
     if (strcmp(cmd, "cd") == 0) {

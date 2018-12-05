@@ -1,7 +1,7 @@
-#include <queue>
 #include <stdlib.h>
 #include <cstdlib>
 #include <signal.h>
+#include <iostream>
 #include "rash.h"
 
 using namespace std;
@@ -27,7 +27,7 @@ int main(int argc, const char * argv[]) {
 
     while ((buf = readline(thing.c_str())) != nullptr) {
 
-        queue< vector <char**> > commandQ;
+        queue< vector <char*> > commandQueue;
 
         if (strlen(buf) > 0) {
             add_history(buf); // for arrow history
@@ -41,6 +41,7 @@ int main(int argc, const char * argv[]) {
         vector<string> strVec = getStrVector(bufstr);
         vector<char*>  args   = getCharVector(strVec);
 
+        commandQueue = getExecQueue(strVec);
         
         if (cdCheck(args[0], args[1])) continue;
 
