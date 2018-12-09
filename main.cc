@@ -26,6 +26,8 @@ int main(int argc, const char * argv[]) {
     sigaction(SIGINT, &sigIntHandler, NULL);
 
     while ((buf = readline(thing.c_str())) != nullptr) {
+    // while ((buf = readline(getenv("PS1"))) != nullptr) {
+
 
         queue< vector <char*> > commandQueue;
 
@@ -38,13 +40,21 @@ int main(int argc, const char * argv[]) {
         if (killRash(buf)) return 0;
         
         string bufstr(buf);
+        int r = 0;
         vector<string> strVec = getStrVector(bufstr);
-        vector<char*>  args   = getCharVector(strVec);
+        vector<char*>  args   = getCharVector(strVec, &r);
 
-        commandQueue = getExecQueue(strVec);
+        // commandQueue = getExecQueue(strVec);
+
+
         
-        if (cdCheck(args[0], args[1])) continue;
-
+        // while (!commandQueue.empty()) {
+        //     vector<char*> something = commandQueue.front();
+        //     for (auto item : something) {
+        //         cout << item << endl;
+        //     }
+        //     commandQueue.pop();
+        // }
 
         if (bufstr.find("=") != string::npos) { 
             // means we should be setting an env var
@@ -58,8 +68,9 @@ int main(int argc, const char * argv[]) {
                 continue;
             }
             else setenv(envVar.c_str(), envSetTo.c_str(), 1);
+            // else putenv((char*)envVar.c_str());
         }
-        if (!expand_and_exec(args[0], &args[0])) return 0;
+        else if (!expand_and_exec(args[0], &args[0], r)) return 0;
 
         free(buf);
     }
